@@ -6,7 +6,7 @@
 #    By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/29 15:00:20 by msousa            #+#    #+#              #
-#    Updated: 2021/11/11 21:08:37 by msousa           ###   ########.fr        #
+#    Updated: 2021/11/13 21:57:05 by msousa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,21 +16,24 @@ CC			= gcc
 RM			= rm -f
 INC			= -Iincludes -Ilibft
 OBJ			= ${SRC:.c=.o}
-SRC			= srcs/minitalk.c
-
-SERVER	= server.c
-client	= client.c
+SRC			= srcs/server.c srcs/client.c
+BIN			= server client
 
 NAME		= minitalk
 
-${NAME}:	server.o client.o ${OBJ}
+${NAME}:	server client
+
+server:		srcs/server.o
 					${MAKE} -C libft
-					${CC} ${CFLAGS} ${OBJ} server.o ${LINKS} -o server
-					${CC} ${CFLAGS} ${OBJ} client.o ${LINKS} -o client
+					${CC} ${CFLAGS} srcs/$@.o ${LINKS} -o $@
+
+client:		srcs/client.o
+					${MAKE} -C libft
+					${CC} ${CFLAGS} srcs/$@.o ${LINKS} -o $@
 
 %.o:%.c
 					${CC} ${CFLAGS} ${INC} -c $< -o $@
-
+					
 all:			${NAME}
 
 style:		${NAME}
@@ -45,7 +48,7 @@ clean:
 					${RM} ${OBJ}
 
 fclean:		clean
-					${RM} ${NAME}
+					${RM} ${BIN}
 
 re: 			fclean all
 
