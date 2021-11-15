@@ -6,7 +6,7 @@
 #    By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/29 15:00:20 by msousa            #+#    #+#              #
-#    Updated: 2021/11/13 21:57:05 by msousa           ###   ########.fr        #
+#    Updated: 2021/11/15 22:01:37 by msousa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ BIN			= server client
 
 NAME		= minitalk
 
-${NAME}:	server client
+${NAME}:	${BIN}
 
 server:		srcs/server.o
 					${MAKE} -C libft
@@ -38,10 +38,6 @@ all:			${NAME}
 
 style:		${NAME}
 					-norminette $$( find . -type f \( -name "*.c" -or -name "*.h" \) )
-
-# test:
-# 					valgrind --tool=memcheck --leak-check=yes --show-reachable=yes \
-# 					--num-callers=20 --track-fds=yes ./${NAME}
 
 clean:
 					${MAKE} clean -C libft
