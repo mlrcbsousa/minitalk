@@ -6,7 +6,7 @@
 /*   By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 18:50:03 by msousa            #+#    #+#             */
-/*   Updated: 2021/11/15 21:59:20 by msousa           ###   ########.fr       */
+/*   Updated: 2021/11/15 23:44:09 by msousa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,22 @@ int	main(int argc, char *argv[])
 	str = argv[2];
 	(void)str;
 	pid = ft_atoi(argv[1]);
-	// while (*str)
-	// {
-	// 	bit = 0;
-	// 	while (bit < 8)
-	// 		if (kill(pid,
-	// 				ft_ternary(*str & (128 >> bit++), SIGUSR2, SIGUSR1)) == -1)
-	// 			kill_error();
-	// 	str++;
-	// }
+	while (*str)
+	{
+		bit = 0;
+		while (bit < 8)
+			if (kill(pid,
+					ft_ternary(*str & (128 >> bit++), SIGUSR2, SIGUSR1)) == -1)
+				kill_error();
+			else
+				usleep(9);
+		str++;
+	}
 	bit = 0;
 	while (bit++ < 8)
-	{
 		if (kill(pid, SIGUSR1) == -1)
 			kill_error();
 		else
-			usleep(3);
-	}
+			usleep(9);
 	return (0);
 }
