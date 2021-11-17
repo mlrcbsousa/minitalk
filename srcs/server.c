@@ -6,62 +6,46 @@
 /*   By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 18:50:03 by msousa            #+#    #+#             */
-/*   Updated: 2021/11/16 17:52:23 by msousa           ###   ########.fr       */
+/*   Updated: 2021/11/17 19:00:56 by msousa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minitalk.h"
-
-char	*ft_straddc_first(char c)
-{
-	char	*add;
-
-	add = (char *)malloc(sizeof(char) * 2);
-	if (!add)
-		return (NULL);
-	add[0] = c;
-	add[1] = '\0';
-	return (add);
-}
+#include "minitalk.h"
 
 char	*ft_addchartostr(char *str, char c)
 {
-	char	*add;
-	int		i;
+	char	*result;
+	int		length;
 
-	if (!c)
-		return (NULL);
 	if (!str)
-		return (ft_straddc_first(c));
-	add = (char *)malloc(sizeof(char) * (ft_strlen(str) + 2));
-	if (!add)
+	{
+		result = (char *)malloc(sizeof(char) * 2);
+		if (!result)
+			return (NULL);
+		ft_bzero(result, 2);
+		*result = c;
+		return (result);
+	}
+	length = ft_strlen(str);
+	result = (char *)malloc(sizeof(char) * (length + 2));
+	if (!result)
 	{
 		free(str);
 		return (NULL);
 	}
-	i = -1;
-	while (str[++i])
-		add[i] = str[i];
+	result = ft_memcpy(result, str, length);
+	ft_bzero(result + length, 2);
 	free(str);
-	add[i++] = c;
-	add[i] = '\0';
-	return (add);
-}
-
-char	*print_string(char *string)
-{
-	string = ft_addchartostr(string, '\n');
-	ft_putstr_fd(string, 1);
-	free(string);
-	return (NULL);
+	*(result + length) = c;
+	return (result);
 }
 
 static void	handle_sigusr(int signal)
 {
 	static int	bits = 0;
 	static unsigned char	c = 0;
-	static char	*string = 0;
-	
+	static char	*string = NULL;
+
 	bits++;
 	c = c << 1;
 	if (signal == SIGUSR2)
@@ -71,7 +55,11 @@ static void	handle_sigusr(int signal)
 		if (c)
 			string = ft_addchartostr(string, c);
 		else
-			string = print_string(string);
+		{
+			ft_putendl_fd(string, STDOUT);
+			free(string);
+			string = NULL;
+		}
 		c = 0;
 		bits = 0;
 	}
@@ -79,7 +67,7 @@ static void	handle_sigusr(int signal)
 
 int	main(void)
 {
-	t_sigaction	sa = { 0 };
+	t_sigaction	sa = {0};
 
 	sa.sa_handler = handle_sigusr;
 	sigaction(SIGUSR1, &sa, NULL);
