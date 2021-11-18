@@ -6,13 +6,29 @@
 /*   By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 18:50:03 by msousa            #+#    #+#             */
-/*   Updated: 2021/11/18 14:29:06 by msousa           ###   ########.fr       */
+/*   Updated: 2021/11/18 14:59:15 by msousa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+/*
 #include <sys/time.h>
 #include <stdio.h>
+
+struct timeval start, end;
+
+gettimeofday(&start, NULL);
+printf("Starting of the program, seconds: %ld, micro seconds: %d\n",
+			 start.tv_sec, start.tv_usec);
+
+gettimeofday(&end, NULL);
+printf("Ending of the program, seconds: %ld, micro seconds: %d\n",
+			 end.tv_sec, end.tv_usec);
+
+printf("Total of the program, seconds: %ld, micro seconds: %d\n",
+			 end.tv_sec - start.tv_sec, end.tv_usec - start.tv_usec);
+*/
 
 static void kill_error(void)
 {
@@ -39,11 +55,6 @@ int main(int argc, char *argv[])
 	int pid;
 	int bit;
 	char *str;
-	struct timeval start, end;
-
-	gettimeofday(&start, NULL);
-	printf("Starting of the program, seconds: %ld, micro seconds: %d\n",
-		start.tv_sec, start.tv_usec);
 
 	if (!(argc == 3 && ft_isnumber(argv[1])))
 		usage();
@@ -53,8 +64,7 @@ int main(int argc, char *argv[])
 	{
 		bit = 0;
 		while (bit < 8)
-			if (kill(pid,
-							 ft_ternary(*str & (128 >> bit++), SIGUSR2, SIGUSR1)) < 0)
+			if (kill(pid, ft_ternary(*str & (128 >> bit++), SIGUSR2, SIGUSR1)) < 0)
 				kill_error();
 			else
 				usleep(INTERVAL);
@@ -66,12 +76,5 @@ int main(int argc, char *argv[])
 			kill_error();
 		else
 			usleep(INTERVAL);
-
-	gettimeofday(&end, NULL);
-	printf("Ending of the program, seconds: %ld, micro seconds: %d\n",
-		end.tv_sec, end.tv_usec);
-
-	printf("Total of the program, seconds: %ld, micro seconds: %d\n",
-					end.tv_sec - start.tv_sec, end.tv_usec - start.tv_usec);
 	return (0);
 }
