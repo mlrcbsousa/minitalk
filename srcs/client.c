@@ -6,7 +6,7 @@
 /*   By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 18:50:03 by msousa            #+#    #+#             */
-/*   Updated: 2021/11/18 15:45:46 by msousa           ###   ########.fr       */
+/*   Updated: 2021/11/18 15:53:12 by msousa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,6 @@ static void	usage(void)
 	ft_putendl(NULL);
 	exit(EXIT_FAILURE);
 }
-
-// static void	end_message_send(int pid)
-// {
-// 	int	bit;
-
-// 	bit = 0;
-// 	while (bit++ < 8)
-// 	{
-// 		if (kill(pid, SIGUSR1) < 0)
-// 			kill_error();
-// 		else
-// 			usleep(INTERVAL);
-// 	}
-// }
 
 static void	send_char_bits(int pid, char c)
 {
