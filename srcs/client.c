@@ -6,18 +6,13 @@
 /*   By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 18:50:03 by msousa            #+#    #+#             */
-/*   Updated: 2021/11/18 14:07:48 by msousa           ###   ########.fr       */
+/*   Updated: 2021/11/18 14:29:06 by msousa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 #include <sys/time.h>
 #include <stdio.h>
-
-void ft_putendl(char *str)
-{
-	ft_putendl_fd(str, STDOUT);
-}
 
 static void kill_error(void)
 {

@@ -6,13 +6,13 @@
 /*   By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 18:50:03 by msousa            #+#    #+#             */
-/*   Updated: 2021/11/17 19:00:56 by msousa           ###   ########.fr       */
+/*   Updated: 2021/11/18 14:31:50 by msousa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-char	*ft_addchartostr(char *str, char c)
+static char	*extend_string(char *str, char c)
 {
 	char	*result;
 	int		length;
@@ -53,10 +53,10 @@ static void	handle_sigusr(int signal)
 	if (bits == 8)
 	{
 		if (c)
-			string = ft_addchartostr(string, c);
+			string = extend_string(string, c);
 		else
 		{
-			ft_putendl_fd(string, STDOUT);
+			ft_putendl(string);
 			free(string);
 			string = NULL;
 		}
