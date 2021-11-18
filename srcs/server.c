@@ -6,7 +6,7 @@
 /*   By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 18:50:03 by msousa            #+#    #+#             */
-/*   Updated: 2021/11/18 15:00:35 by msousa           ###   ########.fr       */
+/*   Updated: 2021/11/18 15:47:34 by msousa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ static void	handle_sigusr(int signal)
 	static unsigned char	c = 0;
 
 	bits++;
-	c = c << 1;
+	c <<= 1;
 	if (signal == SIGUSR2)
 		c++;
 	if (bits == 8)
 	{
 		if (c)
 			string = extend_string(string, c);
-		else
+		else if (string)
 		{
 			ft_putendl(string);
 			free(string);
