@@ -6,7 +6,7 @@
 #    By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/29 15:00:20 by msousa            #+#    #+#              #
-#    Updated: 2021/11/15 22:01:37 by msousa           ###   ########.fr        #
+#    Updated: 2021/11/18 13:50:55 by msousa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,10 @@ client:		srcs/client.o
 
 %.o:%.c
 					${CC} ${CFLAGS} ${INC} -c $< -o $@
-					
+
 all:			${NAME}
 
-style:		${NAME}
+style:
 					-norminette $$( find . -type f \( -name "*.c" -or -name "*.h" \) )
 
 clean:

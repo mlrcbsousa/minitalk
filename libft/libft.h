@@ -6,7 +6,7 @@
 /*   By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 23:15:21 by manuel            #+#    #+#             */
-/*   Updated: 2021/11/09 19:39:27 by msousa           ###   ########.fr       */
+/*   Updated: 2021/11/18 14:08:46 by msousa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,7 @@ long	ft_pow(int nb, int power);
 double	ft_fabs(double n);
 double	ft_atof(char *str);
 t_bool	ft_isfloat(char *str);
+t_bool	ft_isnumber(char *str);
+void	ft_putendl(char *str);
 
 #endif

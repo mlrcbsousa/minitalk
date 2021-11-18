@@ -6,21 +6,13 @@
 /*   By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 18:50:03 by msousa            #+#    #+#             */
-/*   Updated: 2021/11/18 00:06:12 by msousa           ###   ########.fr       */
+/*   Updated: 2021/11/18 14:07:48 by msousa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 #include <sys/time.h>
 #include <stdio.h>
-
-t_bool ft_isnumber(char *str)
-{
-	while (*str)
-		if (!ft_isdigit(*str++))
-			return (FALSE);
-	return (TRUE);
-}
 
 void ft_putendl(char *str)
 {
@@ -67,10 +59,10 @@ int main(int argc, char *argv[])
 		bit = 0;
 		while (bit < 8)
 			if (kill(pid,
-								ft_ternary(*str & (128 >> bit++), SIGUSR2, SIGUSR1)) == -1)
+							 ft_ternary(*str & (128 >> bit++), SIGUSR2, SIGUSR1)) < 0)
 				kill_error();
 			else
-				usleep(100);
+				usleep(INTERVAL);
 		str++;
 	}
 	bit = 0;
@@ -78,7 +70,7 @@ int main(int argc, char *argv[])
 		if (kill(pid, SIGUSR1) < 0)
 			kill_error();
 		else
-			usleep(100);
+			usleep(INTERVAL);
 
 	gettimeofday(&end, NULL);
 	printf("Ending of the program, seconds: %ld, micro seconds: %d\n",
