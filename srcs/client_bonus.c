@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 18:50:03 by msousa            #+#    #+#             */
-/*   Updated: 2021/11/18 15:53:12 by msousa           ###   ########.fr       */
+/*   Updated: 2021/11/18 17:50:37 by msousa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,35 @@ static void	send_char_bits(int pid, char c)
 	}
 }
 
+static void handle_sigusr(int signal)
+{
+	if (signal == SIGUSR2)
+		exit(0);
+	else
+		ft_putendl("Confirmation from Server!");
+}
+
 int	main(int argc, char *argv[])
 {
 	int		pid;
 	char	*str;
+	t_sigaction sa;
+	sigset_t mask;
 
 	if (!(argc == 3 && ft_isnumber(argv[1])))
 		usage();
 	str = argv[2];
 	pid = ft_atoi(argv[1]);
+	sigemptyset(&mask);
+	sa.sa_handler = handle_sigusr;
+	sa.sa_flags = 0;
+	sa.sa_mask = mask;
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	send_char_bits(pid, 0);
 	while (*str)
 		send_char_bits(pid, *str++);
 	send_char_bits(pid, 0);
-	return (0);
+	while (TRUE)
+		pause();
 }

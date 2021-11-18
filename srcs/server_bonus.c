@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msousa <mlrcbsousa@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 18:50:03 by msousa            #+#    #+#             */
-/*   Updated: 2021/11/18 15:47:34 by msousa           ###   ########.fr       */
+/*   Updated: 2021/11/18 17:50:07 by msousa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,22 @@ static char	*extend_string(char *str, char c)
 	return (result);
 }
 
-static void	handle_sigusr(int signal)
+static void	kill_error(int pid, char *str)
+{
+	if (str)
+		free(str);
+	ft_putendl_fd("Error while trying to confirm signal!", STDERR);
+	kill(pid, SIGUSR2);
+	exit(EXIT_FAILURE);
+}
+
+static void handle_sigusr(int signal, siginfo_t *info, void *context)
 {
 	static int				bits = 0;
 	static char				*string = NULL;
 	static unsigned char	c = 0;
 
+	(void)context;
 	bits++;
 	c <<= 1;
 	if (signal == SIGUSR2)
@@ -52,10 +62,14 @@ static void	handle_sigusr(int signal)
 			ft_putendl(string);
 			free(string);
 			string = NULL;
+			kill(info->si_pid, SIGUSR2);
+			return ;
 		}
 		c = 0;
 		bits = 0;
 	}
+	if (kill(info->si_pid, SIGUSR1) < 0)
+		kill_error(info->si_pid, string);
 }
 
 int	main(void)
@@ -64,9 +78,10 @@ int	main(void)
 	sigset_t	mask;
 
 	sigemptyset(&mask);
-	sa.sa_flags = 0;
+	sa.sa_handler = 0;
+	sa.sa_flags = SA_SIGINFO;
 	sa.sa_mask = mask;
-	sa.sa_handler = handle_sigusr;
+	sa.sa_sigaction = handle_sigusr;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	ft_printf("PID: %d\n", getpid());
